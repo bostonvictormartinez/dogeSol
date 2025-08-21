@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>eCFR Title Parser</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    select, button { padding: 10px; margin: 5px; }
+    #output { white-space: pre-wrap; margin-top: 20px; }
+  </style>
+</head>
+<body>
+
+  <h2>Select an eCFR Title</h2>
+
+  <select id="titleSelect"></select>
+  <button onclick="fetchTitle()">Fetch Title Data</button>
+    <button onclick="readFromFirebase()">Read from Firebase DB</button>
+<button onclick="populateDataForDay1()">Populate Data for Checksum Day 1</button>
+
+    ...to right is hardcoded example
+
+    
+<button id="countSections" onclick="countSectionsInTitle()">Count Sections in Title 2</button>
+ 
+<button id="fetchDataButton" onclick="getSizeFromFirebase()">Get Words Size for Title 2, Section 0</button>
+ 
+
+<button onclick="getUpdateFromFirebase()">Get Last Update for Title 2, Section 0</button>
+ 
+
+  <div id="output"></div>
+    <div id="sectionList" style="margin-top: 20px;"></div>
+    <button id="showAllBtn" onclick="showAllSections()" style="display:none;">Show All</button>
+
+    <script src="script.js" defer></script>
+</body>
+</html>

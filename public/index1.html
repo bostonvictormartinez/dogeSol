@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>eCFR Title Selector</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    select, button { padding: 10px; margin: 5px; }
+    #output { white-space: pre-wrap; margin-top: 20px; }
+  </style>
+</head>
+<body>
+
+  <h2>Select an eCFR Title</h2>
+
+  <select id="titleSelect">
+    
+  </select>
+  <button onclick="fetchTitle()">Fetch Title Data</button>
+
+  <div id="output"></div>
+
+  <script>
+    const titleSelect = document.getElementById('titleSelect');
+    const output = document.getElementById('output');
+
+    // Populate 
+    for (let i = 1; i <= 50; i++) {
+      const option = document.createElement('option');
+      option.value = i;
+      option.textContent = `Title ${i}`;
+      titleSelect.appendChild(option);
+    }
+
+    async function fetchTitle() {
+      const selected = titleSelect.value;
+      const url = `https://www.ecfr.gov/api/versioner/v1/structure/current/title-${selected}.json`;
+      output.innerText = `Fetching Title ${selected}...`;
+
+      try {
+        const res = await axios.get(url);
+        const data = res.data;
+
+        const title = data.label || `Title ${selected}`;
+        const sectionCount = countSections(data);
+        output.innerText = `${title}\n\nSections Found: ${sectionCount}`;
+      } catch (err) {
+        output.innerText = ` Title ${selected}: ${err.message}`;
+      }
+    }
+
+    // Recursive section counter
+    function countSections(node) {
+      let count = 0;
+      if (node.type === 'section') count++;
+      if (Array.isArray(node.children)) {
+        for (const child of node.children) {
+          count += countSections(child);
+        }
+      }
+      return count;
+    }
+  </script>
+
+</body>
+</html>
